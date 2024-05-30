@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import CustomDatePicker from '@/components/CustomDatePicker'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -6,13 +8,28 @@ import { Textarea } from '@/components/ui/textarea'
 
 function SignUp() {
     return (
-        <form className='flex min-h-full  flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8'>
+        <form className='flex min-h-full  flex-1 flex-col  items-center px-6 py-12 lg:px-8'>
             <div className="space-y-12 ">
                 <div className="border-b border-gray-900/10 pb-12">
-                    <h2 className="text-base font-semibold leading-7 text-gray-900">Profile</h2>
-                    <p className="mt-1 text-sm leading-6 text-gray-600">
+                    <h2 className="text-base font-semibold leading-7 text-gray-900">Create your Account</h2>
+                    {/* <p className="mt-1 text-sm leading-6 text-gray-600">
                         This information will be displayed publicly so be careful what you share.
-                    </p>
+                    </p> */}
+                    <div className="sm:col-span-4 w-full">
+                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                            Email address
+                        </label>
+                        <div className="mt-2">
+                            <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                autoComplete="email"
+                                className='w-full'
+
+                            />
+                        </div>
+                    </div>
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="col-span-full">
                             <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
@@ -63,21 +80,7 @@ function SignUp() {
                             </div>
                         </div>
 
-                        <div className="sm:col-span-4 w-full">
-                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                Email address
-                            </label>
-                            <div className="mt-2">
-                                <Input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    className='w-full'
 
-                                />
-                            </div>
-                        </div>
                     </div>
                     <div className="sm:col-span-4 mt-6 ">
                         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -101,6 +104,11 @@ function SignUp() {
                 >
                     Save
                 </Button>
+            </div>
+            <div className="text-sm mt-4">
+                <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    Already have an account?
+                </Link>
             </div>
         </form >
     )

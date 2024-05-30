@@ -56,6 +56,7 @@ const SignIn = () => {
                                 required
                             />
                         </div>
+
                     </div>
 
                     <div>
@@ -65,6 +66,11 @@ const SignIn = () => {
                         >
                             Sign in
                         </Button>
+                    </div>
+                    <div className="text-sm">
+                        <Link to="/" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                            Don't have an account yet?
+                        </Link>
                     </div>
                 </form>
             </div>
