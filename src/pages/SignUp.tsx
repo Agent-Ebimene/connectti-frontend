@@ -79,8 +79,6 @@ function SignUp() {
                                 />
                             </div>
                         </div>
-
-
                     </div>
                     <div className="sm:col-span-4 mt-6 ">
                         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">

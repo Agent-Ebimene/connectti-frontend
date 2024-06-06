@@ -1,10 +1,29 @@
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/service/redux/store';
+import { fetchUsers } from '@/features/user/userApi';
+import { useEffect } from 'react';
+
 
 const SignIn = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const users = useSelector((state: RootState) => state.user.users);
+    const loading = useSelector((state: RootState) => state.user.loading);
+
+    useEffect(() => {
+        dispatch(fetchUsers());
+    }, [dispatch]);
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+            {users.map((user) => (
+                <div key={user.id}>
+                    <p> First Name: {user.firstName}</p>
+                    <p>Last Name: {user.lastName}</p>
+                    <p> Email: {user.email}</p>
+                </div>
+            ))}
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img
                     className="mx-auto h-10 w-auto"
