@@ -15,13 +15,15 @@ const SignIn = () => {
     useEffect(() => {
         dispatch(fetchUsers());
     }, [dispatch]);
+
+    useEffect(() => {
+        console.log(users)
+    }, [users])
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             {users.map((user) => (
                 <div key={user.id}>
-                    <p> First Name: {user.firstName}</p>
-                    <p>Last Name: {user.lastName}</p>
-                    <p> Email: {user.email}</p>
+                    <p> First Name: {user.firstName}   {user.lastName}  {user.email}</p>
                 </div>
             ))}
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">

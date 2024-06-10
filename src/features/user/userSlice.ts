@@ -20,16 +20,16 @@ const counterSlice = createSlice({
             state.users = action.payload
         },
         getUser(state, action: PayloadAction<User>) {
-            state.users.find((user) => user.id === action.payload.id)
+            state.users.find((user) => user.email === action.payload.email)
         },
         updateUser(state, action: PayloadAction<User>) {
-            const index = state.users.findIndex((user) => user.id === action.payload.id)
+            const index = state.users.findIndex((user) => user.email === action.payload.email)
             if (index !== -1) {
                 state.users[index] = action.payload
             }
         },
         deleteUser(state, action: PayloadAction<User>) {
-            state.users.filter((user) => user.id !== action.payload.id)
+            state.users.filter((user) => user.email !== action.payload.email)
         },
         setLoading(state, action: PayloadAction<boolean>) {
             state.loading = action.payload;
