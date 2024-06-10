@@ -16,12 +16,12 @@ import dayjs from 'dayjs';
 function SignUp() {
     const dispatch = useDispatch<AppDispatch>();
     let userSchema = object({
-        firstName: string().required('Name Cannot must be have atleast 3 letters').min(3),
+        firstName: string().required('Name Cannot must be have atleast 3 letters').min(3, 'First name must be at least 3 characters'),
         password: string().required('Password is required').min(6, 'Password should be 6 characters and above'),
-        email: string().email().required('Email is required'),
-        lastName: string().required().min(3),
+        email: string().required('Email is required').email('This is not a valid email'),
+        lastName: string().required().min(3, "Last name must be at least 3 characters"),
         dateOfBirth: date().required('Date of birth is required'),
-        description: string().required(''),
+        description: string().required('Add a description about yourself'),
     });
 
 
@@ -34,6 +34,7 @@ function SignUp() {
         description: '',
 
     })
+    const [errors, setErrors] = useState<Record<string, string>>({})
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault()
 
@@ -44,25 +45,25 @@ function SignUp() {
             console.log('Form Submitted', user)
         } catch (err) {
             if (err instanceof ValidationError) {
+                const newErrors: Record<string, string> = {}
                 err.inner.forEach((error) => {
-                    console.log(error.message); // Log each error message
+                    if (error.path) {
+                        console.log(error.path)
+                        newErrors[error.path] = error.message;
+                        setErrors(newErrors)
+                    }
                 });
             } else {
                 console.error('An unexpected error occurred', err);
             }
         }
-
-        // try {
-
-
-        //     const formattedDateOfBirth = dayjs(user.dateOfBirth).format('YYYY-MM-DD 00:00:00');
-
-        //     console.log(formattedDateOfBirth)
-        //     dispatch(createUser(user))
-        // } catch (err) {
-        //     console.error(err)
-        // }
-
+    }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target
+        setUser((user) => ({
+            ...user,
+            [name]: value
+        }))
 
     }
 
@@ -78,35 +79,41 @@ function SignUp() {
                     {/* <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p> */}
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-3">
-                            <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
+                            <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
                                 First name
                             </label>
                             <div className="mt-2">
                                 <Input
                                     type="text"
-                                    name="first-name"
+                                    name="firstName"
                                     id="first-name"
-                                    onChange={(e) => setUser((user) => ({ ...user, firstName: e.target.value }))}
+                                    value={user.firstName}
+                                    onChange={handleChange}
                                     autoComplete="first-name"
 
                                 />
                             </div>
+                            {errors.firstName && <p className='text-red-500'>{errors.firstName}</p>}
                         </div>
 
                         <div className="sm:col-span-3">
-                            <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
+                            <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
                                 Last name
                             </label>
                             <div className="mt-2">
                                 <Input
+                                    value={user.lastName}
                                     type="text"
-                                    name="last-name"
+                                    name="lastName"
                                     id="last-name"
                                     autoComplete="family-name"
-                                    onChange={(e) => setUser((user) => ({ ...user, lastName: e.target.value }))}
+                                    onChange={handleChange}
+
 
                                 />
                             </div>
+                            {errors.lastName && <p className='text-red-500'>{errors.firstName}</p>}
+
                         </div>
                     </div>
                     <div className="sm:col-span-4 w-full mt-4">
@@ -120,10 +127,14 @@ function SignUp() {
                                 type="email"
                                 autoComplete="email"
                                 className='w-full'
-                                onChange={(e) => setUser((user) => ({ ...user, email: e.target.value }))}
+                                value={user.email}
+                                onChange={handleChange}
+
 
                             />
                         </div>
+                        {errors.email && <p className='text-red-500'>{errors.email}</p>}
+
                     </div>
 
                     <div className="sm:col-span-4 mt-4 ">
@@ -133,8 +144,13 @@ function SignUp() {
                         <div className='mt-3 '>
                             <CustomDatePicker
                                 onChange={handleDateChange}
+
+
+
                             />
                         </div>
+                        {errors.dateOfBirth && <p className='text-red-500'>{errors.dateOfBirth}</p>}
+
                     </div>
 
                     <div className="sm:col-span-4 w-full mt-4">
@@ -145,13 +161,17 @@ function SignUp() {
                             <Input
                                 id="password"
                                 name="password"
-                                type="text"
+                                type="password"
                                 autoComplete="password"
                                 className='w-full'
-                                onChange={(e) => setUser((user) => ({ ...user, password: e.target.value }))}
+                                value={user.password}
+                                onChange={handleChange}
+
 
                             />
                         </div>
+                        {errors.password && <p className='text-red-500'>{errors.password}</p>}
+
                     </div>
 
                 </div>
@@ -173,11 +193,15 @@ function SignUp() {
                                     rows={3}
                                     defaultValue={''}
                                     onChange={(e) => setUser((user) => ({ ...user, description: e.target.value }))}
+                                    value={user.description}
 
                                 />
                             </div>
+                            {errors.description && <p className='text-red-500'>{errors.description}</p>}
                             <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
                         </div>
+
+
                     </div>
                 </div>
 

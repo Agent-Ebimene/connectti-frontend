@@ -3,7 +3,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface CustomDatePickerProp {
-    onChange: (date: any) => void
+    onChange: (date: any) => void,
+
+
 }
 
 export default function CustomDatePicker({ onChange }: CustomDatePickerProp) {
