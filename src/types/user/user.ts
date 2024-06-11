@@ -10,5 +10,7 @@ export interface User {
     updatedAt?: Date;
     lastActive?: Date;
 }
-
 export interface CreateUserData extends Pick<User, 'firstName' | 'lastName' | 'email' | 'password' | 'dateOfBirth' | 'description'> { }
+export interface RegisterUserData extends Pick<User, 'email' | 'password'> {
+
+}

@@ -1,31 +1,72 @@
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import { object, string, number, date, InferType, ValidationError } from 'yup';
 import { Input } from '@/components/ui/input'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/service/redux/store';
-import { fetchUsers } from '@/features/user/userApi';
-import { useEffect } from 'react';
+import { loginUser } from '@/features/user/userApi';
+import { useEffect, useState } from 'react';
+import { RegisterUserData } from '@/types/user/user';
 
 
 const SignIn = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const users = useSelector((state: RootState) => state.user.users);
-    const loading = useSelector((state: RootState) => state.user.loading);
+    // const users = useSelector((state: RootState) => state.user.users);
+    // const loading = useSelector((state: RootState) => state.user.loading);
 
-    useEffect(() => {
-        dispatch(fetchUsers());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(fetchUsers());
+    // }, [dispatch]);
 
-    useEffect(() => {
-        console.log(users)
-    }, [users])
+    // useEffect(() => {
+    //     console.log(users)
+    // }, [users])
+
+    let userSchema = object({
+        password: string().required('Password is required'),
+        email: string().required('Email is required').email('This is not a valid email'),
+    });
+
+
+    const [user, setUser] = useState<RegisterUserData>({
+        email: '',
+        password: '',
+    })
+    const [errors, setErrors] = useState<Record<string, string>>({})
+    const handleSubmit = async (e: React.SyntheticEvent) => {
+        e.preventDefault()
+
+        try {
+            await userSchema.validate(user, { abortEarly: false })
+            dispatch(loginUser(user))
+
+            console.log('Form Submitted', user)
+        } catch (err) {
+            if (err instanceof ValidationError) {
+                const newErrors: Record<string, string> = {}
+                err.inner.forEach((error) => {
+                    if (error.path) {
+                        console.log(error.path)
+                        newErrors[error.path] = error.message;
+                        setErrors(newErrors)
+                    }
+                });
+            } else {
+                console.error('An unexpected error occurred', err);
+            }
+        }
+    }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target
+        setUser((user) => ({
+            ...user,
+            [name]: value
+        }))
+
+    }
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-            {users.map((user) => (
-                <div key={user.id}>
-                    <p> First Name: {user.firstName}   {user.lastName}  {user.email}</p>
-                </div>
-            ))}
+
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img
                     className="mx-auto h-10 w-auto"
@@ -38,7 +79,7 @@ const SignIn = () => {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6" action="#" method="POST">
+                <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
                     <div>
                         <div className="flex items-center justify-between">
                             <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
@@ -52,8 +93,12 @@ const SignIn = () => {
                                 type="email"
                                 autoComplete="email"
                                 required
+                                value={user.email}
+                                onChange={handleChange}
                             />
                         </div>
+                        {errors.password && <p className='text-red-500'>{errors.email}</p>}
+
                     </div>
 
                     <div>
@@ -75,8 +120,12 @@ const SignIn = () => {
                                 type="password"
                                 autoComplete="current-password"
                                 required
+                                value={user.password}
+                                onChange={handleChange}
                             />
                         </div>
+                        {errors.password && <p className='text-red-500'>{errors.password}</p>}
+
 
                     </div>
 

@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/service/redux/store'
 import { createUser } from '@/features/user/userApi'
-import dayjs from 'dayjs';
+import { useToast } from '@/components/ui/use-toast';
 
 
 function SignUp() {
@@ -23,7 +23,7 @@ function SignUp() {
         dateOfBirth: date().required('Date of birth is required'),
         description: string().required('Add a description about yourself'),
     });
-
+    const { toast } = useToast()
 
     const [user, setUser] = useState<CreateUserData>({
         firstName: '',
@@ -42,7 +42,11 @@ function SignUp() {
             await userSchema.validate(user, { abortEarly: false })
             dispatch(createUser(user))
 
-            console.log('Form Submitted', user)
+
+            toast({
+                title: "Account Register",
+                description: "Account Successfully Created!",
+            })
         } catch (err) {
             if (err instanceof ValidationError) {
                 const newErrors: Record<string, string> = {}
@@ -55,6 +59,10 @@ function SignUp() {
                 });
             } else {
                 console.error('An unexpected error occurred', err);
+                toast({
+                    title: "Oh,something went wrong",
+                    "description": "There was a problem with your resquest"
+                })
             }
         }
     }
@@ -219,6 +227,7 @@ function SignUp() {
                 >
                     Save
                 </Button>
+
             </div>
             <div className="text-sm mt-4">
                 <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
