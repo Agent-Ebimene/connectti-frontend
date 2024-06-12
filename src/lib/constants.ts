@@ -8,17 +8,18 @@ export const menuItems = [
         icon: HomeIcon,
     },
     {
+        name: 'Create Post',
+        description: "Create a post",
+        href: '/create-post',
+        icon: PencilIcon,
+    },
+    {
         name: 'Notification',
         description: 'Notification',
         href: '#',
         icon: BellAlertIcon,
     },
-    {
-        name: 'Account',
-        description: "Account",
-        href: '#',
-        icon: UserIcon
-    },
+
     {
         name: 'Feed',
         description: "Feed",
@@ -26,9 +27,9 @@ export const menuItems = [
         icon: NewspaperIcon,
     },
     {
-        name: 'Create Post',
-        description: "Create a post",
+        name: 'Account',
+        description: "Account",
         href: '#',
-        icon: PencilIcon,
+        icon: UserIcon
     },
 ]
