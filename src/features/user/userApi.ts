@@ -23,6 +23,7 @@ export const createUser = (user: User) => async (dispatch: AppDispatch) => {
         dispatch(addUser(response.data))
     } catch (error) {
         console.error(error)
+        throw error
     } finally {
         dispatch(setLoading(false))
     }

@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/service/redux/store'
 import { createUser } from '@/features/user/userApi'
 import { useToast } from '@/components/ui/use-toast';
+import { cn } from '@/lib/utils';
 
 
 function SignUp() {
@@ -43,10 +44,7 @@ function SignUp() {
             dispatch(createUser(user))
 
 
-            toast({
-                title: "Account Register",
-                description: "Account Successfully Created!",
-            })
+
         } catch (err) {
             if (err instanceof ValidationError) {
                 const newErrors: Record<string, string> = {}
@@ -57,13 +55,25 @@ function SignUp() {
                         setErrors(newErrors)
                     }
                 });
-            } else {
-                console.error('An unexpected error occurred', err);
+            }
+
+
+            else {
+                // console.error('An unexpected error occurred', err);
+                console.log('*******************', err)
                 toast({
                     title: "Oh,something went wrong",
                     "description": "There was a problem with your resquest"
                 })
             }
+        } finally {
+            toast({
+                title: "Registration",
+                description: "Account Successfully Created!",
+                className: cn(
+                    'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
+                ),
+            })
         }
     }
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
