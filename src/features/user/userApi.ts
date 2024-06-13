@@ -30,6 +30,19 @@ export const createUser = (user: User) => async (dispatch: AppDispatch) => {
 
 }
 
+export const fetchUser = (id: string) => async (dispatch: AppDispatch) => {
+    dispatch(setLoading(true))
+    try {
+        const response = await axios.get(`http://localhost:3000/user/${id}`);
+        dispatch(getUser(response.data))
+    } catch (error) {
+        console.error(error)
+    } finally {
+        dispatch(setLoading(false))
+    }
+
+}
+
 export const loginUser = (user: RegisterUserData) => async (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
     try {

@@ -4,7 +4,7 @@ export const menuItems = [
     {
         name: 'Home',
         description: 'Home',
-        href: '#',
+        href: '/dashboard',
         icon: HomeIcon,
     },
     {
@@ -16,7 +16,8 @@ export const menuItems = [
     {
         name: 'Notification',
         description: 'Notification',
-        href: '#',
+        href: '/create-post',
+
         icon: BellAlertIcon,
     },
 

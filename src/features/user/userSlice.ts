@@ -9,7 +9,7 @@ const initialState: UserState = {
     users: [],
     loading: false
 }
-const counterSlice = createSlice({
+const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
@@ -20,7 +20,7 @@ const counterSlice = createSlice({
             state.users = action.payload
         },
         getUser(state, action: PayloadAction<User>) {
-            state.users.find((user) => user.email === action.payload.email)
+            state.users.find((user) => user.id === action.payload.id)
         },
         updateUser(state, action: PayloadAction<User>) {
             const index = state.users.findIndex((user) => user.email === action.payload.email)
@@ -40,6 +40,6 @@ const counterSlice = createSlice({
 
 
 })
-export const { addUser, getUser, getUsers, updateUser, deleteUser, setLoading } = counterSlice.actions
+export const { addUser, getUser, getUsers, updateUser, deleteUser, setLoading } = userSlice.actions
 
-export default counterSlice.reducer
+export default userSlice.reducer

@@ -12,9 +12,6 @@ const Layout = ({ children }: LayoutProps) => {
 
             <Menu />
             {children}
-            <footer>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita at assumenda nam dolorum dignissimos voluptas.
-            </footer>
         </div>
     )
 }
