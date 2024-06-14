@@ -2,7 +2,6 @@ import Layout from '@/components/Layout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { useToast } from '@/components/ui/use-toast'
 import { createPost } from '@/features/post/postApi'
 import { fetchUser } from '@/features/user/userApi'
 import { cn } from '@/lib/utils'
@@ -11,7 +10,7 @@ import { createPostData } from '@/types/post/post'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ValidationError, object, string } from 'yup'
-
+import { useToast } from '@/hooks/use-toast'
 const Post = () => {
     const dispatch = useDispatch<AppDispatch>()
     const [post, setPost] = useState<createPostData>({
@@ -49,7 +48,14 @@ const Post = () => {
 
         try {
             await postSchema.validate(post, { abortEarly: false })
-            dispatch(createPost(post))
+            await dispatch(createPost(post))
+            toast({
+                title: "Registration",
+                description: "Post Successfully Created!",
+                className: cn(
+                    'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
+                ),
+            })
 
 
 
@@ -74,14 +80,6 @@ const Post = () => {
                     "description": "There was a problem with your resquest"
                 })
             }
-        } finally {
-            toast({
-                title: "Registration",
-                description: "Post Successfully Created!",
-                className: cn(
-                    'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
-                ),
-            })
         }
 
 

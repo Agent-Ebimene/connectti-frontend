@@ -7,9 +7,10 @@ import { AppDispatch, RootState } from '@/service/redux/store';
 import { loginUser } from '@/features/user/userApi';
 import { useEffect, useState } from 'react';
 import { RegisterUserData } from '@/types/user/user';
-import { toast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
+import { toast } from '@/hooks/use-toast';
+
 
 
 const SignIn = () => {
@@ -25,6 +26,7 @@ const SignIn = () => {
     //     console.log(users)
     // }, [users])
     const navigate = useNavigate()
+
 
     let userSchema = object({
         password: string().required('Password is required'),
@@ -42,7 +44,15 @@ const SignIn = () => {
 
         try {
             await userSchema.validate(user, { abortEarly: false })
-            dispatch(loginUser(user))
+            await dispatch(loginUser(user))
+            toast({
+                title: "Login",
+                description: "Successfully Logged in!",
+                className: cn(
+                    'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
+                ),
+            })
+            navigate('/dashboard')
 
 
         } catch (err) {
@@ -58,15 +68,6 @@ const SignIn = () => {
             } else {
                 console.error('An unexpected error occurred', err);
             }
-        } finally {
-            toast({
-                title: "Login",
-                description: "Successfully Logged in!",
-                className: cn(
-                    'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
-                ),
-            })
-            navigate('/dashboard')
         }
     }
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

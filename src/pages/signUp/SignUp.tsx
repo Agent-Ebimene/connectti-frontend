@@ -10,7 +10,8 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/service/redux/store'
 import { createUser } from '@/features/user/userApi'
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from '@/hooks/use-toast';
+
 import { cn } from '@/lib/utils';
 
 
@@ -24,7 +25,7 @@ function SignUp() {
         dateOfBirth: date().required('Date of birth is required'),
         description: string().required('Add a description about yourself'),
     });
-    const { toast } = useToast()
+
 
     const [user, setUser] = useState<CreateUserData>({
         firstName: '',
