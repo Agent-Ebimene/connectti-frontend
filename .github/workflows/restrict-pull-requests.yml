@@ -1,0 +1,16 @@
+name: Restrict Pull Requests
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  restrict-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check target branch
+        if: github.event.pull_request.base.ref != 'dev'
+        run: |
+          echo "Pull requests can only be made to the 'dev' branch."
+          exit 1

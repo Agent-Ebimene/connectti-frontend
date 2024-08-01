@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
     users: User[],
-    loading: boolean
+    loading: boolean,
+    user: User | null
 }
 const initialState: UserState = {
     users: [],
-    loading: false
+    loading: false,
+    user: null
 }
 const userSlice = createSlice({
     name: 'user',
@@ -20,7 +22,7 @@ const userSlice = createSlice({
             state.users = action.payload
         },
         getUser(state, action: PayloadAction<User>) {
-            state.users.find((user) => user.id === action.payload.id)
+            state.user = action.payload
         },
         updateUser(state, action: PayloadAction<User>) {
             const index = state.users.findIndex((user) => user.email === action.payload.email)
