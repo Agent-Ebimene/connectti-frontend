@@ -94,6 +94,7 @@ function SignUp() {
         <form className='flex min-h-full  flex-1 flex-col  items-center px-6 py-12 lg:px-8' onSubmit={handleSubmit}>
             <div className="space-y-12 ">
                 <div className="border-b border-gray-900/10 pb-12">
+                    <h1>Testing github actions</h1>     {/* To be removed */}
                     <h2 className="text-base font-semibold leading-7 text-gray-900">Create Your account</h2>
                     {/* <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p> */}
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
